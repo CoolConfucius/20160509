@@ -1,36 +1,46 @@
+<!DOCTYPE HTML>
 <html>
 <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
-    <title>SAPUI5 in 20 Seconds</title>
-    <!-- 1.) Load SAPUI5 (from a remote server), select theme and control
-library -->
-    <script id="sap-ui-bootstrap"
-        src="https://sapui5.hana.ondemand.com/resources/sap-ui-core.js"
-        data-sap-ui-theme="sap_bluecrystal"
-        data-sap-ui-libs="sap.ui.commons"></script>
-    <!-- 2.) Create a UI5 button and place it onto the page -->
+    <title>Mobile App in 23 Seconds Example</title>
+    <!--replace "server" and "port" with your local installation -->
+    ￼     <script  src= "https://openui5.hana.ondemand.com/resources/sap-ui-core.js"
+    id= "sap-ui-bootstrap"
+    data-sap-ui-libs= "sap.m"
+    data-sap-ui-theme= "sap_bluecrystal">
+    </script>
+    <!-- only load the mobile lib "sap.m" and the "sap_bluecrystal" theme -->
     <script>
-        // create the button instance
-        var myButton = new sap.ui.commons.Button("btn");
-        // set properties, e.g. the text (there is also a shorter way of setting several properties)
-        myButton.setText("Hello World!");
-        // attach an action to the button's "press" event (use jQuery to fadeout the button)
-        myButton.attachPress(function(){$("#btn").fadeOut()});
-        // place the button into the HTML element defined below
-        myButton.placeAt("uiArea");
-        // an alternative, more jQuery-like notation for the same is:
-        /*
-        $(function(){
-            $("#uiArea").sapui("Button", "btn", {
-                text:"Hello World!",
-                press:function(){$("#btn").fadeOut();}
-            });
-});
-*/ </script>
-</head>
-<body class="sapUiBody">
-    <!-- This is where you place the UI5 button -->
-    <div id="uiArea"></div>
-</body>
-</html>
+       // create a mobile App
+      // it initializes the HTML page for mobile use and provides animated page handling
+      var app = new sap.m.App("myApp", {initialPage:"page1"}); // page1 should be displayed first
+      // create the first page of your application
+      var page1 = new sap.m.Page("page1", {
+          title: "Initial Page",
+          content : new sap.m.Button({   // content is just one Button to page 2
+            text : "Go to Page 2",
+            press: function() {
+              app.to("page2");
+// when pressed, it triggers drilldown
+            }
+          })
+      });
+      // create the second page of your application
+      var page2 = new sap.m.Page("page2", {
+          title: "Page 2",
+          showNavButton: true,       // page 2 should display a back button
+          navButtonPress: function(){
+              app.back();            // when pressed, the back button should navigate back up to page 1
+          },
+          content : new sap.m.Text({text:"Hello Mobile World!"})
+      });
+  
+      app.addPage(page1).addPage(page2); // add both pages to the App
+      app.placeAt("content"); // place the App into the HTML document
+      </script>
+      </head>
+      <body class="sapUiBody">
+      <div id="content"></div>
+      </body>
+      </html>
